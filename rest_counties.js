@@ -1,28 +1,41 @@
 fetch('https://restcountries.eu/rest/v2/all')
-.then(res => res.json())
-.then(data => displayCountries(data))
+    .then(res => res.json())
+    .then(data => displayCountry(data));
 
-const displayCountries = countries => {
-    const countriesDiv = document.getElementById('country-list')
-    for (let i = 0; i < countries.length; i++) {
-        const country = countries[i];
-        const countryDiv = document.createElement('div');
-        
-        // const h3 = document.createElement('h3');
-        // h3.innerText = country.name;
-        // const p = document.createElement('p');
-        // p.innerText = country.capital;
-        // const h4 = document.createElement('h4');
-        // h4.innerText = country.region;
-        // countryDiv.appendChild(h3);
-        // countryDiv.appendChild(h4);
-        // countryDiv.appendChild(p);
-
-        const countryInfo = `
-            <h3>${country.name}</h3>
-            <h4>${country.capital}</h4>
+const displayCountry = countries => {
+    const countriesDiv = document.getElementById('All-country');
+    countries.forEach(country => {
+        const countryDiv = document.createElement('div')
+        countryDiv.className = 'country';
+        const countryInfo = `    
+        <h3 class="country-name">${country.name}</h3>
+        <h4 class="capital-name">${country.capital}</h4>
+        <button onclick="displayEveryCountryDtl('${country.name}')"> Details </button>
         `;
         countryDiv.innerHTML = countryInfo;
         countriesDiv.appendChild(countryDiv);
-    }
+    });
+}
+
+const displayEveryCountryDtl = name => {
+    const url = `https://restcountries.eu/rest/v2/name/${name}`
+    fetch(url)
+    .then(res => res.json())
+    .then(data => infoDetails(data[0]))
+}
+const infoDetails = country => {
+    console.log(country);
+    const specificDtl = document.getElementById('specific-info');
+    specificDtl.innerHTML = `
+        <h1>Country:${country.name}</h1>
+        <h1>Population:${country.population}</h1>
+        <h1>Area:${country.area}</h1>
+        <img src="${country.flag}">
+    `
+
+    
+    const allCountry = document.getElementById('All-country');
+    allCountry.style.display = 'none';
+    const speInfo = document.getElementById('specific-info');
+    speInfo.style.display = 'block';
 }
