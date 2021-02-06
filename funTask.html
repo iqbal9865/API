@@ -1,12 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fun Task With API</title>
 </head>
+
 <body>
-    
+    <h2 id="activity">Fun Task With API</h2>
+    <h3><a id="link" href="http://www.boredapi.com/api/activity/">Visit Our Site</a></h3>
+
+
+    <script>
+        doSomething();
+        function doSomething(){
+            fetch('http://www.boredapi.com/api/activity/')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('activity').innerText = data.activity;
+            })
+        }
+        setInterval(() => {
+            doSomething()
+        }, 4000);
+    </script>
 </body>
+
 </html>
